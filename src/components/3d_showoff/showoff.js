@@ -79,7 +79,7 @@ function PistonPlane({shadow, position, targetPosition, ...props}) {
 }
 
 export function getModelFilesPaths(modelName){
-    let modelFolder = `/${packageInfo.homepage}/models/${modelName}/`
+    let modelFolder = `${packageInfo.homepage}/models/${modelName}/`
     return {
         modelFolder: modelFolder,
         modelFilepath: modelFolder+`${modelName}.glb`,

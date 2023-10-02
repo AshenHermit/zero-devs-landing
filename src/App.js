@@ -49,7 +49,10 @@ const router = createBrowserRouter([
     path: "/projects",
     element: <Projects/>,
   },
-], {basename: "/" + packageInfo.homepage});
+], {
+  basename: packageInfo.homepage,
+
+});
 
 
 function App() {

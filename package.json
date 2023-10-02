@@ -2,7 +2,7 @@
   "name": "zero-devs-landing",
   "version": "0.1.0",
   "private": true,
-  "homepage": "zero-devs",
+  "homepage": "/zero-devs",
   "dependencies": {
     "@react-three/drei": "^9.86.1",
     "@react-three/fiber": "^8.14.3",
