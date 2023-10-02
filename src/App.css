@@ -28,6 +28,7 @@ body{
   --link-highlight-color: rgb(171, 178, 186);
   --background-color-tertiary: hsl(213, 10%, 14%);
   --in-section-grid-gap: 3em;
+  --backdrop-blur: 2px;
 
   background-color: var(--content-bg);
   -webkit-font-smoothing: antialiased;
@@ -134,8 +135,8 @@ header nav{
   align-items: center;
 }
 header .nav-logo{
-  height: 32px;
-  width: 32px;
+  height: 40px;
+  width: 40px;
   display: flex;
 }
 header .nav-logo img{
@@ -233,6 +234,8 @@ header .header-title strong{
 footer{
   background-color: var(--background-color-tertiary);
   margin-top: 208px;
+  z-index: 10;
+  position: relative;
 }
 footer .footer-contents{
   padding-top: 3rem;
@@ -336,7 +339,7 @@ svg.skewed-line, svg.skewed-line path{
 .huge-block.fullscreen{
   margin: 0 0;
   padding: 0 0;
-  min-height: calc(100vh - 55px);
+  height: calc(100vh - 55px);
   margin-top: calc(var(--header-height) * -1);
   background-color: var(--background-color-tertiary);
 }
@@ -443,11 +446,13 @@ h1 strong{
   font-weight: 200;
   font-size: 1.5em;
   list-style: hiragana;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(var(--backdrop-blur));
   border-radius: 4px;
   display: inline-block;
-  padding-left: 2.3em;
   margin: 0;
+  background-color: var(--content-bg);
+  padding: 0.5em 1em;
+  padding-left: 3em;
 
   --li-marker-bg: url(https://www.gravatar.com/avatar/951b2df…?s=64&d=identicon&r=PG&f=y&so-version=2);
 }
@@ -483,7 +488,7 @@ h1 strong{
   font-style: normal;
   font-weight: 700;
   line-height: 116.875%;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(var(--backdrop-blur));
 }
 .huge-block .text b{
   color: #A9B5C5;
@@ -552,12 +557,12 @@ h1 strong{
 }
 
 .shadow-filter{
-  --shadow-color: rgba(0,0,0,0.2);
-  -webkit-filter: drop-shadow(15px 15px 20px var(--shadow-color));
-  filter: drop-shadow(15px 15px 20px var(--shadow-color));
+  --shadow-color: rgb(17 16 22 / 65%);
+  -webkit-filter: drop-shadow(0px 0px 20px var(--shadow-color));
+  filter: drop-shadow(0px 0px 20px var(--shadow-color));
 }
 .big-logo{
-  
+  width: 369px;
 }
 .filter{
   display: none;
@@ -582,4 +587,14 @@ h1 strong{
   height: 100%;
   user-select: none;
   pointer-events: none;
+  filter: hue-rotate(311deg);
+  opacity: 1.0;
+  transition: opacity 1s ease;
+}
+.models-showoff > div{
+  filter: sepia(1) brightness(1.1) saturate(6);
+}
+
+.marked-text{
+  display: inline;
 }

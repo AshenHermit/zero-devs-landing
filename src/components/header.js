@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import logo from '../logo.png';
+import { ReactComponent as SVGDemonFaceMicro } from "../graphics/demon_face_micro.svg";
 import { BgBlurredElement } from "./graphics_elements";
 
 export const Header = () => {
@@ -16,7 +17,7 @@ export const Header = () => {
   let setRandomTitle = () => {
     let randTitleIdx = Math.floor(Math.random()*titles.length)
     let randomTitle = titles[randTitleIdx]
-    window.document.title = "Almost Team never ends. oh you are looking at full page title, nice. im sorry for my... actually you know i will..."
+    window.document.title = "Zero Devs, with zero games. oh you are looking at full page title, nice. im sorry for my... actually you know i will..."
     titleRef.current.innerText = randomTitle
     titleRef.current.style.minWidth = titleRef.current.clientWidth + "px"
   }
@@ -43,17 +44,17 @@ export const Header = () => {
           /> */}
 
           <BgBlurredElement>
-            <a href='/' className='header-title dynamic-logo-container'>
-              <img className='nav-logo' src={logo}></img>
+            <a href='/zero-devs/' className='header-title dynamic-logo-container'>
+              <SVGDemonFaceMicro className='nav-logo'/>
               <strong ref={titleRef}>Almost Team</strong>
             </a>
           </BgBlurredElement>
           <ul>
             <li>
-              <a href="/wat">Че</a>
+              <a href="/zero-devs/wat">Че</a>
             </li>
             <li>
-              <a href="/projects">Проекты</a>
+              <a href="/zero-devs/projects">Проекты</a>
             </li>
           </ul>
         </nav>

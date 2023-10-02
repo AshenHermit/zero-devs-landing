@@ -1,7 +1,8 @@
 import { Stats, OrbitControls, useGLTF, Box } from '@react-three/drei'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { useRef, useMemo, useEffect, useState } from 'react'
+import { useRef, useMemo, useEffect, useState, Suspense, useContext } from 'react'
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import packageInfo from '../../../package.json'
 
 import {
   MeshNormalMaterial,
@@ -13,6 +14,7 @@ import {
 } from 'three'
 import * as THREE from 'three'
 import { Physics, RapierRigidBody, RigidBody } from '@react-three/rapier';
+import { ClientContext } from '../../client';
 
 function Plane({shadow, bodyRef, ...props}) {
     let visible = shadow !== undefined
@@ -77,7 +79,7 @@ function PistonPlane({shadow, position, targetPosition, ...props}) {
 }
 
 export function getModelFilesPaths(modelName){
-    let modelFolder = `/models/${modelName}/`
+    let modelFolder = `/${packageInfo.homepage}/models/${modelName}/`
     return {
         modelFolder: modelFolder,
         modelFilepath: modelFolder+`${modelName}.glb`,
@@ -124,16 +126,18 @@ export function GLBRigidBody({modelName, children, position, ...props}) {
     }
 
     return (
-        <RigidBody ref={ref} colliders="hull" friction={0.3}>
-            <mesh
-                castShadow
-                geometry={viewGeometry}
-                position={positionRandomized.current}
-                {...props}
-            >
-                {children}
-            </mesh>
-        </RigidBody>
+        <Suspense fallback={null}>
+            <RigidBody ref={ref} colliders="hull" friction={0.3}>
+                <mesh
+                    castShadow
+                    geometry={viewGeometry}
+                    position={positionRandomized.current}
+                    {...props}
+                >
+                    {children}
+                </mesh>
+            </RigidBody>
+        </Suspense>
     )
 }
 export function Model({modelName, children, ...props}) {
@@ -146,8 +150,8 @@ export function Model({modelName, children, ...props}) {
 
     return (
         <GLBRigidBody modelName={modelName} {...props}>
-            <meshToonMaterial map={texture}>
-            </meshToonMaterial>
+            <meshStandardMaterial map={texture}>
+            </meshStandardMaterial>
         </GLBRigidBody>
     )
 }
@@ -166,24 +170,26 @@ export function ModelWithEmission({modelName, children, ...props}) {
 
     return (
         <GLBRigidBody modelName={modelName} {...props}>
-            <meshToonMaterial
+            <meshStandardMaterial
                 map={texture}
                 emissive={"white"}
                 emissiveMap={emissionTex}
                 emissiveIntensity={1}
                 side={THREE.DoubleSide}
             >
-            </meshToonMaterial>
+            </meshStandardMaterial>
         </GLBRigidBody>
     )
 }
+
+const pixelsToMeter = (x) => x / 150
 
 const Camera = (props) => {
     const ref = useRef();
     const {camera} = useThree();
 
     useFrame((state, delta) => {
-        camera.position.set(0, -window.scrollY/150, 3)
+        camera.position.set(0, pixelsToMeter(-window.scrollY), 3)
     });
 
     return (
@@ -199,7 +205,38 @@ const Camera = (props) => {
     );
 };
 
-export const ModelsShowoff = ({...props})=>{
+export const PostEffects = ({containerRef, ...props})=>{
+    var [currentSectionData, setCurrentSectionData] = useState(null)
+    const targetHueDeg = useRef(311)
+    const hueDeg = useRef(311)
+
+    const colorsToDegs = {
+        "red": 311,
+        "blue": 197,
+        "green": 122,
+    }
+
+    const client = useContext(ClientContext)
+    
+    useEffect(()=>{
+        client.subscribeToSectionData(setCurrentSectionData)
+    }, [])
+
+    useEffect(()=>{
+        if(currentSectionData){
+            targetHueDeg.current = colorsToDegs[currentSectionData.color]
+        }
+    })
+
+    useFrame(()=>{
+        if(!containerRef.current) return
+        hueDeg.current = hueDeg.current + ((targetHueDeg.current - hueDeg.current) / 10)
+        containerRef.current.style.filter = `hue-rotate(${hueDeg.current}deg)`
+    })
+    return <></>
+}
+
+export default function ModelsShowoff ({...props}){
     const [gravity, setGravity] = useState({x: 3, y: -9.8*2, z: 0})
     const physicsRef = useRef()
         
@@ -219,7 +256,11 @@ export const ModelsShowoff = ({...props})=>{
                 setGravity({x: 0, y: -0.04, z: 0.1})
                 let ground = groundRef.current
                 gravityFreed.current = true
-                ground.setTranslation({x:0, y: 200, z: 0})
+                ground.setTranslation({
+                    x: 0, 
+                    y: -pixelsToMeter(document.getElementsByTagName("footer")[0].getClientRects()[0].y), 
+                    z: 0})
+                containerRef.current.style.opacity = 0.5;
             }
         }
         cb()
@@ -228,13 +269,14 @@ export const ModelsShowoff = ({...props})=>{
         return ()=>{
             document.removeEventListener("scroll", cb);
         }
-    }, [])
+    })
 
     let startModelsPos = [-25, 10, -5]
     
     return (
         <div ref={containerRef} className='models-showoff'>
             <Canvas ref={canvasRef} shadows>
+                <PostEffects containerRef={containerRef} />
                 <Camera>
                     <pointLight
                         position={[-10,4,-2]}
@@ -250,11 +292,9 @@ export const ModelsShowoff = ({...props})=>{
                         castShadow
                         color={new THREE.Color("#ffc87d")}
                     />
-                    <pointLight
-                        position={[0,1,-2]}
-                        intensity={300.0}
-                        distance={100.0}
-                        color={"white"}
+                    <ambientLight
+                        intensity={0.5}
+                        color={new THREE.Color("#ff1b82")}
                     />
                 </Camera>
                 
@@ -288,7 +328,7 @@ export const ModelsShowoff = ({...props})=>{
                             modelName="neuro_block"
                             position={startModelsPos}
                             />
-
+                        
                         <Model 
                             modelName="floor"
                             position={startModelsPos}

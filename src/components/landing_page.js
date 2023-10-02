@@ -9,8 +9,9 @@ import { AnimatedHTMLPrinter, BgBlurredElement, RandomShapes } from './graphics_
 import { ReactComponent as SVGBrainInJar } from "../graphics/brain_in_jar.svg";
 import { ReactComponent as SVGBlade } from "../graphics/blade.svg";
 import { ReactComponent as SVGBotanicula } from "../graphics/botanicula.svg";
-import { ModelsShowoff } from './3d_showoff/showoff';
+import { ReactComponent as SVGDemonFace } from "../graphics/demon_face.svg";
 import { isMobile } from 'react-device-detect';
+import { ClientContext } from '../client';
 
 export const defaultSectionObj = {
   titleText: "В черепной коробке",
@@ -22,7 +23,8 @@ export const defaultSectionObj = {
 export const SectionContext = React.createContext(defaultSectionObj);
 
 export const SectionTitle = (props) => {
-  let section = useContext(SectionContext)
+  const section = useContext(SectionContext)
+  const client = useContext(ClientContext)
   
   return (
     <ReactScroll.Link to={section.id} smooth={true}>
@@ -44,7 +46,9 @@ export const SectionText = (props) => {
   })
   return (
     <div ref={elRef} className='text'>
-      {props.children}
+      <div className='marked-text'>
+        {props.children}
+      </div>
     </div>
   )
 }
@@ -167,10 +171,21 @@ export const Landing = () => {
     },
   ]
 
+  const ModelsShowoffLazy = React.lazy(() => import("./3d_showoff/showoff"));
+  const client = useContext(ClientContext)
+  client.sectionsData = sections
+
+  useEffect(()=>{})
+
   return (
     <div className="home">
       <RandomShapes></RandomShapes>
-      <ModelsShowoff></ModelsShowoff>
+      {!isMobile ? 
+        <React.Suspense fallback={null}>
+          <ModelsShowoffLazy></ModelsShowoffLazy>
+        </React.Suspense>
+       : ''}
+
       <FullscreenBlock
         outerSpace={<>
           <RandomShapes></RandomShapes>
@@ -203,8 +218,7 @@ export const Landing = () => {
               </AnimatedHTMLPrinter>
             </>
             ,
-            right: 
-            <img className='big-logo shadow-filter' src={logo}></img>
+            right: !isMobile ? <SVGDemonFace className='big-logo shadow-filter'/> : ''
           }
         ]}
       >

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import logo from './logo.png';
+import packageInfo from '../package.json'
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { animateScroll as scroll, scrollSpy} from 'react-scroll';
@@ -14,6 +15,7 @@ import { Header } from './components/header';
 import ThreeCanvas from './components/3d_showoff/showoff';
 import { AnimatedHTMLPrinter, BgBlurredElement, RandomShapes } from './components/graphics_elements';
 import { Landing } from './components/landing_page';
+import { Client, ClientContext, ClientWrapper } from './client';
 
 const Portfolio = () => {
   return (
@@ -47,7 +49,7 @@ const router = createBrowserRouter([
     path: "/projects",
     element: <Projects/>,
   },
-]);
+], {basename: "/" + packageInfo.homepage});
 
 
 function App() {
@@ -69,12 +71,6 @@ function App() {
     const hash = window.location.hash.substring(1); // Убираем "#" из хеша
     if(!hash) return
     ReactScroll.scroller.scrollTo(hash, {smooth: true})
-    // const element = document.getElementById(hash);
-    // if (element) {
-    //   console.log(element)
-    //   scroll.scrollTo()
-    //   element.scrollIntoView({ behavior: "smooth" });
-    // }
   }
 
   useEffect(()=>{
@@ -82,25 +78,20 @@ function App() {
     scrollSpy.update()
   })
 
-  const cubeTextures = [
-    'https://cdn.dribbble.com/users/3331076/screenshots/18423578/media/a14f1c292c3cd57e775be75d3ea55957.png?resize=1000x750&vertical=center',
-    'https://cdn.dribbble.com/userupload/3731207/file/original-a95bccf7e2ab9e7bb2d4ff0dca5fd783.png?resize=1024x768',
-    'https://cdn.dribbble.com/users/3331076/screenshots/18031498/media/836cd3312b758084feb3a4a798f3da32.png?resize=1000x750&vertical=center',
-    // Добавьте другие URL-адреса текстур, как необходимо
-  ];
-
   return (
-    <div className="App">
-      {/* <ThreeCanvas cubeTextures={cubeTextures} /> */}
+    <ClientWrapper>
+      <div className="App">
+        {/* <ThreeCanvas cubeTextures={cubeTextures} /> */}
 
-      <Header />
-      <div className='main-content-container'>
-        <div className='main-content'>
-          <RouterProvider router={router} />
+        <Header />
+        <div className='main-content-container'>
+          <div className='main-content'>
+            <RouterProvider router={router} />
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ClientWrapper>
   );
 }
 
