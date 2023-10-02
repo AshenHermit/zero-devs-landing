@@ -102,6 +102,10 @@ export class RandomShapes extends Component {
     this.noiseIdxOffsetFactor = 100
     this.noiseScale = 40.0
 
+    this.numShapes = props.numShapes || 20
+    this.animated = true
+    if(props.animated !== undefined) this.animated = props.animated
+
     this.transforms = {}
   }
 
@@ -122,7 +126,7 @@ export class RandomShapes extends Component {
   componentDidMount() {
     this.resizeContainer();
     this.generateRandomShapes();
-    this.startAnimation()
+    if(this.animated) this.startAnimation()
   }
   componentWillUnmount(){
     this.stopAnimation()
@@ -151,7 +155,7 @@ export class RandomShapes extends Component {
   }
 
   generateRandomShapes() {
-    const numShapes = 20; // Количество случайных фигур, которые вы хотите создать
+    const numShapes = this.numShapes; // Количество случайных фигур, которые вы хотите создать
 
     const containerWidth = this.container.current.clientWidth
     const containerHeight = this.container.current.clientHeight

@@ -179,16 +179,16 @@ export const Landing = () => {
 
   return (
     <div className="home">
-      <RandomShapes></RandomShapes>
+      <RandomShapes numShapes = {20} animated={!isMobile}/>
       {!isMobile ? 
         <React.Suspense fallback={null}>
-          <ModelsShowoffLazy></ModelsShowoffLazy>
+          <ModelsShowoffLazy/>
         </React.Suspense>
        : ''}
 
       <FullscreenBlock
         outerSpace={<>
-          <RandomShapes></RandomShapes>
+          <RandomShapes numShapes = {isMobile? 10: 20}/>
         </>}
         grid={[
           {

@@ -19,7 +19,6 @@ export const Header = () => {
     let randomTitle = titles[randTitleIdx]
     window.document.title = "Zero Devs, with zero games. oh you are looking at full page title, nice. im sorry for my... actually you know i will..."
     titleRef.current.innerText = randomTitle
-    titleRef.current.style.minWidth = titleRef.current.clientWidth + "px"
   }
   useEffect(()=>{
     setRandomTitle()

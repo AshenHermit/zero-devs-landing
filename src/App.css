@@ -78,6 +78,7 @@ header {
   font-size: var(--nav-font-size);
   display: flex;
   align-items: center;
+  gap: 1em;
 }
 
 .skew-line::before {
@@ -101,10 +102,12 @@ header ul {
   list-style: none;
   display: flex;
   margin: 0;
+  padding: 0;
+  gap: 10px;
 }
 
 header ul li {
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 header a {
@@ -133,6 +136,13 @@ header .header-contents{
 header nav{
   display: flex;
   align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+@media (max-width: 1169px) {
+  header .header-contents{
+    justify-content: space-between;
+  }
 }
 header .nav-logo{
   height: 40px;
@@ -150,8 +160,6 @@ header .header-title strong{
   margin-inline: var(--nav-spacer-sm);
   transition: min-width 0.5s;
   transition-timing-function: ease;
-  text-wrap: nowrap;
-  width: auto;
 }
 @media (min-width: 1170px) {
   header .header-contents{
@@ -283,7 +291,6 @@ footer .skewed-line{
   height: 210px;
 }
 
-
 @media (min-width: 1170px) {
   footer .footer-contents{
     width: var(--max-content-width);
@@ -292,7 +299,7 @@ footer .skewed-line{
 @media (max-width: 1169px) {
   footer .footer-nav{
     grid-template-columns: 2fr 2fr;
-    padding: 3em;
+    padding: 2em;
     display: flex;
     gap: 4em;
     flex-wrap: wrap;
