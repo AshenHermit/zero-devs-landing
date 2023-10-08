@@ -1,7 +1,7 @@
-import {ReactComponent as SkewedLineHalfSVG} from '../graphics/skewed_line_half.svg';
-import {ReactComponent as SkewedLineSVG} from '../graphics/skewed_line.svg';
+import SkewedLineHalfSVG from '../graphics/skewed_line_half.svg?react';
+import SkewedLineSVG from '../graphics/skewed_line.svg?react';
 import React, { Component, useEffect, useRef, useState } from 'react';
-import * as Simplex from 'perlin-simplex';
+import {default as Simplex} from '../lib/perlin-simplex';
 import { isMobile } from 'react-device-detect';
 
 export const BgBlurredElement = ({blurScale=1, children}) =>{
@@ -260,8 +260,17 @@ export const AnimatedHTMLPrinter = ({step=1, fps=60, children}) => {
   let srcRef = useRef()
   let dstRef = useRef()
   let canAnimate = useRef(false)
+  let alreadyAnimated = useRef(false)
+
+  let releaseMainContent = ()=>{
+    dstRef.current.style.display = "none"
+    srcRef.current.style.display = ""
+  }
 
   useEffect(()=>{
+    if(alreadyAnimated.current){
+      releaseMainContent()
+    }
     let interval = null
     let currentPosition = 0
     let currentHTMLString = ""
@@ -292,16 +301,16 @@ export const AnimatedHTMLPrinter = ({step=1, fps=60, children}) => {
       dstEl.innerHTML = currentHTMLString
       if(currentPosition >= srcHTML.length){
         clearInterval(interval)
-        dstRef.current.style.display = "none"
-        srcRef.current.style.display = ""
+        releaseMainContent()
+        alreadyAnimated.current = true
       }
     }, 1000 / fps)
 
     return ()=>{
       clearInterval(interval)
     }
-  })
-
+  }, [])
+  
   const onElementVisible = ()=>{
 
     canAnimate.current = true
