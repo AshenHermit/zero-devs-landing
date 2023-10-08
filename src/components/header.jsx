@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import logo from '../logo.png';
-import { ReactComponent as SVGDemonFaceMicro } from "../graphics/demon_face_micro.svg";
+import SVGDemonFaceMicro from "../graphics/demon_face_micro.svg?react";
 import { BgBlurredElement } from "./graphics_elements";
 
 export const Header = () => {

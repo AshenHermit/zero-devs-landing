@@ -29,6 +29,8 @@ body{
   --background-color-tertiary: hsl(213, 10%, 14%);
   --in-section-grid-gap: 3em;
   --backdrop-blur: 2px;
+  --border-radius: 4px;
+  --text-color: #585f69;
 
   background-color: var(--content-bg);
   -webkit-font-smoothing: antialiased;
@@ -197,6 +199,8 @@ header .header-title strong{
   
   --l-color-pos: 0%;
   --r-color-pos: 100%;
+
+  transition: 0.5s color ease;
 }
 .bg-gradient-text{
   display: inline;
@@ -213,14 +217,13 @@ header .header-title strong{
 }
 
 .green.gradient-text{
-  background-image: linear-gradient(45deg, hsl(149, 100%, 50%) 0%, hsl(170, 100%, 96%));
+  background-image: linear-gradient(45deg, hsl(149, 100%, 50%) 0%, hsl(170, 100%, 96%) 110%);
 }
 .blue.gradient-text{
   background-image: linear-gradient(45deg, hsl(221, 100%, 61%) 0%, hsl(256, 100%, 84%));
 }
 
 .red-gradient-text .green-gradient-text .blue-gradient-text, 
-
 .blur-container{
   display: grid;
 }
@@ -340,7 +343,7 @@ svg.skewed-line, svg.skewed-line path{
 }
 .huge-block{
   margin: 0 0;
-  padding-top: 164px;
+  padding-top: 264px;
   min-height: 360px;
 }
 .huge-block.fullscreen{
@@ -511,6 +514,33 @@ h1 strong{
 .huge-block text.important{
   
 }
+
+.huge-block:not(.huge-block.active) .gradient-text{
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+  -moz-background-clip: inherit;
+  -moz-text-fill-color: inherit;
+  -ms-background-clip: inherit;
+  -ms-text-fill-color: inherit;
+  background-clip: inherit;
+  text-fill-color: inherit;
+  background-image: none;
+  color: #2a2e35;
+}
+.huge-block:not(.huge-block.active) .text{
+  color: #2a2e35 !important;
+}
+.huge-block:not(.huge-block.active) .idea.colored-bg{
+  background-color: var(--content-bg);
+}
+.huge-block:not(.huge-block.active) svg{
+  filter: none;
+}
+.huge-block:not(.huge-block.active) svg path{
+  fill: var(--content-bg);
+}
 /* --- huge block end --- */
 
 /* --- elements start ---- */
@@ -526,9 +556,50 @@ h1 strong{
   align-items: center;
   gap: var(--in-section-grid-gap);
 }
-@media (min-width: 1170px) {
+.ideas-row.wreath{
   
 }
+.ideas-row.wreath .idea{
+  background-color: var(--content-bg);
+  padding: 2em;
+  height: fit-content;
+  border-radius: var(--border-radius);
+  
+  transition: background-color 0.5s ease;
+}
+.ideas-row.wreath > div:nth-child(1){
+  transform-origin: top right;
+  transform: rotate(3deg);
+}
+.ideas-row.wreath > div:nth-child(2){
+  
+}
+.ideas-row.wreath > div:nth-child(3){
+  transform-origin: top left;
+  transform: rotate(-3deg);
+}
+.light-bg h3{
+  background-color: var(--content-bg);
+  padding: 1em;
+  border-radius: var(--border-radius);
+}
+.light-bg .blur-container:has(h1){
+  background-color: var(--content-bg);
+  padding: 1.2em;
+  border-radius: var(--border-radius);
+}
+
+.colored-blue .idea.colored-bg{
+  background-color: hsl(221.78deg 100% 62.55%);
+}
+.colored-blue .idea.colored-bg .text{
+  color: var(--content-bg);
+  transition: color 0.5s ease;
+}
+.colored-blue .idea.colored-bg svg path{
+  fill: var(--content-bg);
+}
+
 .ideas-row svg{
   width: 100%;
 }
@@ -543,8 +614,9 @@ h1 strong{
     text-align: right;
   }
 }
-.ideas-row svg, .ideas-row svg path{
+.ideas-row svg path{
   fill: #A9B5C5;
+  transition: fill 0.25s ease;
 }
 .ideas-row svg{
   /* opacity: 0.5; */
@@ -586,7 +658,6 @@ h1 strong{
   transition: transform 1.4s;
   transition-timing-function: ease;
 }
-
 
 .models-showoff{
   position: fixed;

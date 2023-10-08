@@ -24,11 +24,11 @@ export const Footer = () => {
               <a className='link'>Jobs</a>
             </div>
             <div className='footer-col'>
-              <a className='link bold'>Древнегреческие Боги Издетели</a>
+              <a className='link bold'>Древнегреческие Боги Игр</a>
               <ExternalLink href="https://www.devolverdigital.com/">Devolver Digital</ExternalLink>
               <ExternalLink href="https://chucklefish.org/">Chucklefish Ltd</ExternalLink>
-              <a className='link'>License</a>
-              <a className='link bold'>Боги Разработчики</a>
+              <ExternalLink href="https://www.fromsoftware.jp/ww/products.html">From Software</ExternalLink>
+              <a className='link bold'>ыв</a>
               <a className='link'>Credits</a>
               <a className='link'>Privacy Policy</a>
               <br/>
@@ -53,15 +53,11 @@ export const Footer = () => {
               <a className='link'>Training</a>
             </div>
             <div className='footer-col'>
-              <a className='link bold'>Support</a>
-              <a className='link'>Manual</a>
-              <a className='link'>Community</a>
-              <a className='link'>FAQ</a>
-              <br/>
               <a className='link bold'>Список Пидарасов</a>
               <ExternalLink href="https://gamedev.ru/users/?id=85394">Skylordy</ExternalLink>
               <ExternalLink href="https://gamedev.ru/users/?id=80128">PeeKay</ExternalLink>
-              <a className='link'>И много много других обиженных аглибастардов</a>
+              <a className='link'>И много много других обиженных аглибастардов.</a>
+              <a className='link'>Да ладно не обижайтесь вам просто немного над собой поработать надо окда, стей хард 💪</a>
               <br/>
               <a className='link bold'>Blender Conference</a>
             </div>

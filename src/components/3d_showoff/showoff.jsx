@@ -1,7 +1,6 @@
 import { Stats, OrbitControls, useGLTF, Box } from '@react-three/drei'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useLoader, useThree,  } from '@react-three/fiber'
 import { useRef, useMemo, useEffect, useState, Suspense, useContext } from 'react'
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import packageInfo from '../../../package.json'
 
 import {
@@ -265,7 +264,6 @@ export default function ModelsShowoff ({...props}){
         }
         cb()
         document.addEventListener("scroll", cb);
-        console.log(physicsRef.current)
         return ()=>{
             document.removeEventListener("scroll", cb);
         }

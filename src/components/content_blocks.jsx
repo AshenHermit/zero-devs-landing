@@ -12,14 +12,17 @@ export const ExternalLink = (props) => {
   )
 }
 
-export const HugeBlock = ({grid=[], align="", color="", alreadyAnimated=false, viewOffset=0, blockName="", bg="", duration=0.5}) => {
-  let className = "huge-block"
+export const HugeBlock = ({grid=[], align="", color="", alreadyAnimated=true, className="", viewOffset=0, blockName="", bg="", duration=0.5}) => {
+  className = "huge-block "+className
 
   if(align){
     className += " " + "align-" + align
   }
   if(color){
     className += " " + "colored-" + color
+  }
+  if(bg){
+    className += " " + "light-bg"
   }
   
   let blockAnimation = "animate__fadeIn"
@@ -92,8 +95,8 @@ export const BlockGridRenderer = ({grid=0, className="content", alreadyAnimated=
   )
 }
 
-export const FullscreenBlock = ({grid=[], outerSpace}) => {
-  let className = "huge-block fullscreen"
+export const FullscreenBlock = ({grid=[], className="", outerSpace}) => {
+  className = "huge-block fullscreen "+className
 
   if(!grid) return
 
