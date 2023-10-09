@@ -92,7 +92,7 @@ export const SectionRenderer = ({section=defaultSectionObj})=>{
   let className = ""
 
   useEffect(()=>{
-    client.subscribeToSectionData(setCurrentSectionData)
+    client.onSectionDataChanged.subscribe(setCurrentSectionData)
   }, [])
 
   if(currentSectionData){
