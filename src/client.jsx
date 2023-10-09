@@ -1,18 +1,12 @@
+import { EventHandler } from "event-js"
 import React, { useEffect, useRef, useState } from "react"
 
 export class Client{
     constructor(){
         this.sectionsData = []
         this.sectionsDataListeners = []
+        this.onSectionDataChanged = new EventHandler()
         this.currentSectionData = null
-    }
-    subscribeToSectionData(cb){
-        this.sectionsDataListeners.push(cb)
-    }
-    publishSecData(data){
-        this.sectionsDataListeners.forEach(cb => {
-            cb(data)
-        });
     }
     getSectionData(id){
         return this.sectionsData.filter(x=>x.id == id)[0]
@@ -35,7 +29,7 @@ export const ClientWrapper = ({children, ...props}) => {
         
         client.current.currentSectionData = data
         setCurrentSectionData(data)
-        client.current.publishSecData(data)
+        client.current.onSectionDataChanged.publish(data)
     }
 
     useEffect(() => {

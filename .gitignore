@@ -25,3 +25,5 @@ yarn-error.log*
 
 upload.bat
 __pycache__
+
+RECOVER_*.fla

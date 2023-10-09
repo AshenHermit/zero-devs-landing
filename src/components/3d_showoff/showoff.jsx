@@ -218,7 +218,7 @@ export const PostEffects = ({containerRef, ...props})=>{
     const client = useContext(ClientContext)
     
     useEffect(()=>{
-        client.subscribeToSectionData(setCurrentSectionData)
+        client.onSectionDataChanged.subscribe(setCurrentSectionData)
     }, [])
 
     useEffect(()=>{
