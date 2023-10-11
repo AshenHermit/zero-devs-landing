@@ -12,7 +12,7 @@ export const ExternalLink = (props) => {
   )
 }
 
-export const HugeBlock = ({grid=[], align="", color="", alreadyAnimated=true, className="", viewOffset=0, blockName="", bg="", duration=0.5}) => {
+export const HugeBlock = ({grid=[], align="", color="", alreadyAnimated=true, className="", viewOffset=0, blockName="", bg="", duration=0.5, children, ...props}) => {
   className = "huge-block "+className
 
   if(align){
@@ -30,14 +30,12 @@ export const HugeBlock = ({grid=[], align="", color="", alreadyAnimated=true, cl
     blockAnimation = ""
   }
 
-  if(!grid) return
-
   return (
     <ReactScroll.Element name={blockName}>
       <ScrollAnimation animatePreScroll={true} initiallyVisible={alreadyAnimated} animateOnce={true} duration={duration} offset={viewOffset+0} animateIn={blockAnimation}>
         <div className={className}>
           {bg ? <SkewedLineBgEl swapDirection={bg === "right"}/> : ''}
-          <BlockGridRenderer grid={grid}/>
+          {children}
         </div>
       </ScrollAnimation>
     </ReactScroll.Element>
@@ -65,6 +63,7 @@ export const BlockGridRenderer = ({grid=0, className="content", alreadyAnimated=
         if(row.reverse){
           sideKeys = sideKeys.reverse()
         }
+        let rowContents = null || row.contents
         let rowEls = sideKeys.map(sideKey=>{
           let col = row[sideKey];
           if(!col) return (<div className="col"></div>);
@@ -88,7 +87,10 @@ export const BlockGridRenderer = ({grid=0, className="content", alreadyAnimated=
           )
         })
         return (
-          <div className="row" style={{gridTemplateColumns: colsTemplate}}>{rowEls}</div>
+          <div className="row" style={{gridTemplateColumns: colsTemplate}}>
+            {rowEls}
+            {rowContents ? rowContents : ''}
+          </div>
         )
       })}
     </div>
